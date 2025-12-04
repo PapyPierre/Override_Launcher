@@ -1,0 +1,69 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Work\\Project\\Override Launcher\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E58F2F9E-4AF3-4BD3-90D0-53698B1257F9}|Override Launcher\\Override Launcher.csproj|d:\\work\\project\\override launcher\\override launcher\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E58F2F9E-4AF3-4BD3-90D0-53698B1257F9}|Override Launcher\\Override Launcher.csproj|solutionrelative:override launcher\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E58F2F9E-4AF3-4BD3-90D0-53698B1257F9}|Override Launcher\\Override Launcher.csproj|d:\\work\\project\\override launcher\\override launcher\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E58F2F9E-4AF3-4BD3-90D0-53698B1257F9}|Override Launcher\\Override Launcher.csproj|solutionrelative:override launcher\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E58F2F9E-4AF3-4BD3-90D0-53698B1257F9}|Override Launcher\\Override Launcher.csproj|d:\\work\\project\\override launcher\\override launcher\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E58F2F9E-4AF3-4BD3-90D0-53698B1257F9}|Override Launcher\\Override Launcher.csproj|solutionrelative:override launcher\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 2540,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Work\\Project\\Override Launcher\\Override Launcher\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Override Launcher\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\Work\\Project\\Override Launcher\\Override Launcher\\MainWindow.xaml.cs",
+              "RelativeToolTip": "Override Launcher\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAuwB4AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T10:08:06.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AssemblyInfo.cs",
+              "DocumentMoniker": "D:\\Work\\Project\\Override Launcher\\Override Launcher\\AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "Override Launcher\\AssemblyInfo.cs",
+              "ToolTip": "D:\\Work\\Project\\Override Launcher\\Override Launcher\\AssemblyInfo.cs",
+              "RelativeToolTip": "Override Launcher\\AssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T10:23:22.785Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\Work\\Project\\Override Launcher\\Override Launcher\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "Override Launcher\\MainWindow.xaml",
+              "ToolTip": "D:\\Work\\Project\\Override Launcher\\Override Launcher\\MainWindow.xaml",
+              "RelativeToolTip": "Override Launcher\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-29T10:23:24.289Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
