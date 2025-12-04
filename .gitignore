@@ -31,6 +31,19 @@ artifacts/
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
+# WPF auto-generated designer files
+*.g.cs
+*.g.i.cs
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
 # NuGet Packages
 *.nupkg
 # NuGet Symbol Packages

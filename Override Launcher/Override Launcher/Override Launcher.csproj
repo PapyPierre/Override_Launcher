@@ -7,11 +7,30 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
+        <ApplicationIcon>res\img\LauncherIcon.ico</ApplicationIcon>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="res\img\DarkMode_Background.png" />
+      <None Remove="res\img\LightMode_Background.png" />
+      <None Remove="res\img\Moon.png" />
+      <None Remove="res\img\Sun.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="res\img\LauncherIcon.ico" />
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
       <PackageReference Include="System.Text.Json" Version="10.0.0-rc.2.25502.107" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="res\img\DarkMode_Background.png" />
+      <Resource Include="res\img\LightMode_Background.png" />
+      <Resource Include="res\img\Moon.png" />
+      <Resource Include="res\img\Sun.png" />
     </ItemGroup>
 
 </Project>
