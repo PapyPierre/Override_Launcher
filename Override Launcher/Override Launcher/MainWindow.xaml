@@ -8,11 +8,12 @@
         Title="Override Launcher" Height="450" Width="800">
     <Grid>
         <Image x:Name="Background" Source="/res/img/LightMode_Background.png" Stretch="Fill"  Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Height="100" Margin="0,0,0,40">
-            <ComboBox x:Name="VersionDropdown" Width="180" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Background="Transparent" BorderBrush="#FFC82828" Foreground="#FF3BCC27" BorderThickness="3,3,3,3" ClipToBounds="True"/>
-            <Button x:Name="PlayBtn" Content="PLAY" Width="180" Click="BtnPlay_Click" Height="70" IsDefault="True" BorderThickness="0,0,0,0" Foreground="White" BorderBrush="{x:Null}" FontFamily="Franklin Gothic Demi" FontSize="72" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}"/>
-            <!--ProgressBar x:Name="ProgressBar" Height="20" Minimum="0" Maximum="100"/-->
-            <!--TextBlock x:Name="LblStatus" Text="Statut : prêt" Margin="0,0,0,8"/-->
+
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Height="100" Margin="0,280,0,0">
+            <ComboBox x:Name="VersionDropdown" Width="180" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Background="{x:Null}" ClipToBounds="True" Margin="0,0,0,-10" BorderBrush="{x:Null}" Foreground="{x:Null}"/>
+            <Button x:Name="PlayBtn" Content="PLAY" Width="188" Click="BtnPlay_Click" Height="87" Foreground="White" BorderBrush="{x:Null}" FontFamily="Franklin Gothic Demi" FontSize="80" Background="{x:Null}" BorderThickness="0,0,0,0" RenderTransformOrigin="0,0" Margin="0,0,4,0" IsEnabled="False" Visibility="Hidden"/>
+            <ProgressBar Margin="0,-78,-2,0" x:Name="ProgressBar" Minimum="0" Maximum="100" Height="56" Width="176" BorderBrush="{x:Null}" Background="#CC333333" HorizontalAlignment="Center" VerticalAlignment="Center" Value="26" Foreground="White" BorderThickness="0,0,0,0" ClipToBounds="True" LargeChange="8"/>
+            <TextBlock x:Name="LblStatus" Text="3 Mb/s | 26%" Margin="0,-66,9,13" HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Yu Gothic" Foreground="White"/>
         </StackPanel>
         <Image x:Name="DarkModeIcon"  Stretch="Fill" HorizontalAlignment="Right" Source="/res/img/Moon.png" VerticalAlignment="Bottom" Width="20" Height="20" Margin="0,0,20,15" Grid.Row="1" Grid.Column="1"/>
         <Button x:Name="DarkModeBtn" Width="20" Click="DarkMode_Click" IsEnabled="True" Margin="0,0,20,15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="20" Background="#FFDDDDDD" Grid.Row="1" Grid.Column="1" Opacity="0"/>

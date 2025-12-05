@@ -87,7 +87,6 @@ public partial class MainWindow : Window
     {
         string remoteVersionFile = await GetRemoteVersionFileAsync();
         Version remoteVersion = new Version(ExtractRemoteVersionFile(remoteVersionFile));
-
     }
 
     public async Task<string> GetRemoteVersionFileAsync()
