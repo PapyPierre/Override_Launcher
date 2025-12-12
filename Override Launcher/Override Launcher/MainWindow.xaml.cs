@@ -5,7 +5,9 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+
 
 
 namespace Override_Launcher;
@@ -34,22 +36,24 @@ public partial class MainWindow : Window
             switch (_status)
             {
                 case LauncherStatus.ready:
-                    PlayBtn.Content = "Play";
+                    PlayBtn.Content = "PLAY";
+                    PlayBtn.Visibility = Visibility.Visible;
+                    PlayBtn.IsEnabled = true;
+                    ProgressBar.Visibility = Visibility.Hidden;
+                    LblStatus.Visibility = Visibility.Hidden;
                     break;
                 case LauncherStatus.failed:
-                    PlayBtn.Content = "Retry";
-                    break;
-                case LauncherStatus.awaitDownload:
-                    PlayBtn.Content = "Download";
+                    PlayBtn.Content = "RETRY";
                     break;
                 case LauncherStatus.awaitUpdate:
-                    PlayBtn.Content = "Update";
-                    break;
-                case LauncherStatus.downloadingGame:
-                    PlayBtn.Content = "Downloading";
+                    PlayBtn.Content = "UPDATE";
                     break;
                 case LauncherStatus.updatingGame:
-                    PlayBtn.Content = "Updating";
+                    PlayBtn.Content = "UPDATING";
+                    PlayBtn.Visibility = Visibility.Hidden;
+                    PlayBtn.IsEnabled = false;
+                    ProgressBar.Visibility = Visibility.Visible;
+                    LblStatus.Visibility = Visibility.Visible;
                     break;
                 default:
                     break;
@@ -73,9 +77,11 @@ public partial class MainWindow : Window
         rootPath = Directory.GetCurrentDirectory();
         localVersionFile = Path.Combine(rootPath, "LocalVersion.txt");
         zipPath = Path.Combine(rootPath, "Build Zip");
-        gameExe = Path.Combine(rootPath, "Build", "OverrideClient.exe");
+        gameExe = Path.Combine(rootPath, "Build Zip_unzipped", "OverrideClient.exe");
 
         Debug.WriteLine($"Root path set to: {rootPath}");
+
+        GetLocalVersion();
 
         CheckForUpdates();
     }
@@ -89,22 +95,29 @@ public partial class MainWindow : Window
     {
         if (!File.Exists(localVersionFile))
         {
-            Debug.WriteLine("Error: No local version file found (GetLocalVersion())");
-            return new Version("0.0.0.0");
+            Debug.WriteLine($"Error: No local version file found ({GetLocalVersion()})");
+            File.WriteAllText(localVersionFile, "0.0.0.0");
         }
+
         var text = File.ReadAllText(localVersionFile);
-        return new Version(text);
+        Version localVersion = new Version(text);
+        Debug.WriteLine($"Local version found: {localVersion.ToString()} at path {localVersionFile}");
+        LocalVersionInfo.Text = $"Version: {localVersion.ToString()}";
+        return localVersion;
     }
 
     private void SetLocalVersion(Version newVersion)
     {
         if (!File.Exists(localVersionFile))
         {
-            Debug.WriteLine("Error: No local version file found (SetLocalVersion())");
+            Debug.WriteLine($"Error: No local version file found (SetLocalVersion())");
             return;
         }
 
+        Debug.WriteLine($"Setting local version to: {newVersion.ToString()}");
         File.WriteAllText(localVersionFile, newVersion.ToString());
+        LocalVersionInfo.Text = $"Version: {GetLocalVersion()}";
+        Debug.WriteLine($"Local version set to: {GetLocalVersion()}");
     }
 
     private async void CheckForUpdates()
@@ -121,7 +134,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        Debug.WriteLine($"Build found: {obj.Key}");
+        Debug.WriteLine($"Remote build found: {obj.Key}");
 
         Version localVersion = GetLocalVersion();
         Version remoteVersion = new Version(obj.Key);
@@ -139,6 +152,8 @@ public partial class MainWindow : Window
 
     private async Task UpdateVersionAsync(Version remoteVersion, string objKey)
     {
+        Status = LauncherStatus.updatingGame;
+
         string bucketName = "override-client-builds";
 
         GetObjectResponse objResponse = await GetS3Client().GetObjectAsync(bucketName, objKey);
@@ -148,6 +163,10 @@ public partial class MainWindow : Window
         await DownloadObj(objResponse);
 
         SetLocalVersion(remoteVersion);
+
+        Debug.WriteLine($"Current local version is now: {GetLocalVersion()}");
+
+        Status = LauncherStatus.ready;
     }
 
     private async Task DownloadObj(GetObjectResponse objResponse)
@@ -162,8 +181,8 @@ public partial class MainWindow : Window
 
         Debug.WriteLine($"Downloading...");
 
-        using var output = File.Create(zipFilePath);
-        using var input = objResponse.ResponseStream;
+        using (var output = File.Create(zipFilePath))
+        using (var input = objResponse.ResponseStream)
         {
             byte[] buffer = new byte[81920]; // = 80 Kb, .NET recommanded size 
             int bytesRead;
@@ -174,13 +193,14 @@ public partial class MainWindow : Window
 
                 readBytes += bytesRead;
                 double progress = (double)readBytes / totalBytes * 100.0;
-                
+
+                ProgressBar.Value = progress;
+                LblStatus.Text = $"{progress:0.0}%";
                 Debug.WriteLine($"Download progress: {progress:0.0}%");
             }
         }
 
         Debug.WriteLine($"ZIP downloaded at: {zipPath}");
-
         Debug.WriteLine($"Unzipping...");
 
         if (Directory.Exists(extractFolder)) Directory.Delete(extractFolder, true);
@@ -192,13 +212,20 @@ public partial class MainWindow : Window
             foreach (var entry in zipArchive.Entries)
             {
                 string destinationPath = Path.Combine(extractFolder, entry.FullName);
+
+                if (string.IsNullOrEmpty(entry.Name))
+                {
+                    Directory.CreateDirectory(destinationPath);
+                    continue;
+                }
+
                 Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+
                 entry.ExtractToFile(destinationPath, overwrite: true);
             }
         }
 
         Debug.WriteLine($"Unzipped to: {extractFolder}");
-        Debug.WriteLine($"Current local version is now: {GetLocalVersion()}");
     }
 
     private AmazonS3Client GetS3Client()
@@ -219,10 +246,13 @@ public partial class MainWindow : Window
 
     private void BtnPlay_Click(object sender, RoutedEventArgs e)
     {
+        Debug.WriteLine($"Play Btn Clicked");
+
         if (File.Exists(gameExe) && Status == LauncherStatus.ready)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
-            startInfo.WorkingDirectory = Path.Combine(rootPath, "Build");
+            startInfo.WorkingDirectory = Path.Combine(rootPath, "Build Zip_unzipped");
+            startInfo.Arguments = "192.168.140.201:7777";
             Process.Start(startInfo);
 
             Close();
@@ -268,36 +298,29 @@ public partial class MainWindow : Window
 
         internal Version(string input)
         {
-            int slash = input.LastIndexOf('/');
-            int dotZip = input.LastIndexOf(".zip", StringComparison.OrdinalIgnoreCase);
+            major = minor = revision = patch = 0;
 
-            if (slash < 0 || dotZip < 0 || dotZip <= slash)
+            if (string.IsNullOrWhiteSpace(input))
+                return;
+
+            string core = Path.GetFileName(input);
+
+            if (core.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                core = core.Substring(0, core.LastIndexOf(".zip", StringComparison.OrdinalIgnoreCase));
+
+
+            string[] parts = core.Split('.', StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length < 4)
             {
-                major = 0;
-                minor = 0;
-                revision = 0;
-                patch = 0;
+                Debug.WriteLine(core);
                 return;
             }
 
-            string core = input.Substring(slash + 1, dotZip - slash - 1);
-
-            int lastDot = core.LastIndexOf('.');
-
-            string[] versionStrings = core.Substring(0, lastDot).Split('.');
-            if (versionStrings.Length != 4)
-            {
-                major = 0;
-                minor = 0;
-                revision = 0;
-                patch = 0;
-                return;
-            }
-
-            major = short.Parse(versionStrings[0]);
-            minor = short.Parse(versionStrings[1]);
-            revision = short.Parse(versionStrings[2]);
-            patch = short.Parse(versionStrings[3]);
+            short.TryParse(parts[0], out major);
+            short.TryParse(parts[1], out minor);
+            short.TryParse(parts[2], out revision);
+            short.TryParse(parts[3], out patch);
         }
 
         internal bool IsDifferentThan(Version _otherVersion)
